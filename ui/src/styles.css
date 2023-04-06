@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+
+.h2Style {
+    text-align: center;
+    color: aliceblue;
+}
+
+tr {
+    text-align: center;
+}
+
+label {
+    font-size: 25px;
+    color: aliceblue;
+}

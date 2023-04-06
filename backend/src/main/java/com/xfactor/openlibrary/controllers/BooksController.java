@@ -28,52 +28,90 @@ public class BooksController {
 
     @PostMapping("/saveBook")
     public Book saveBook(@RequestBody Book book) {
-        if (book.getId() == null) {
-            Book book2 = bookRepository.save(book);
-            return book2;
-        }
-        return null;
-
+        bookRepository.save(book);
+        return book;
     }
 
-    @PutMapping("/updateBook")
-    public Book updateBook(@RequestBody Book book) {
-        if (book.getId() != null) {
-            Book book2 = bookRepository.save(book);
-            return book2;
-        }
-        return null;
-
-    }
-
-    @GetMapping("/getAll")
+      @GetMapping("/getAll")
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
-    @GetMapping("findById/{id}")
-    public Book findById(@PathVariable Long id) {
-        Optional<Book> optionalOfBook = bookRepository.findById(id);
-        if (optionalOfBook.isPresent()) {
-            return optionalOfBook.get();
-        }
-        return null;
+      @GetMapping("/getbooksbyisbn/{isbn}")
+      public List<Book> findbyisbn (@PathVariable String isbn){
+        List<Book> listbyisbn = bookRepository.findByIsbn(isbn);
+        return listbyisbn;
+      }
+    @GetMapping("/getbooksbyisbnandtitle/{title}/{isbn}")
+    public List<Book> findbyisbnandtitle (@PathVariable String title, @PathVariable String isbn){
+        List<Book> listbyisbnandtitle = bookRepository.findBytitleAndIsbn(title,isbn);
+        return listbyisbnandtitle;
+      }
+      @GetMapping("/getBookByPublicationDate/{publicationDate}")
+    public List<Book> findByPublicationDate(@PathVariable String publicationDate){
+        List<Book> listOfBooksByPublicationDate = bookRepository.findByPublicationDate(publicationDate);
+        return listOfBooksByPublicationDate;
     }
 
-    @GetMapping("findTotal")
-    public Long findTotal() {
-        return bookRepository.count();
+    @GetMapping("/getBookByPublisher/{publisher}")
+    public List<Book> findByPublisher(@PathVariable String publisher){
+        List<Book> listOfBooksByPublisher = bookRepository.findByPublisher(publisher);
+        return listOfBooksByPublisher;
     }
 
-    @DeleteMapping("delete/{id}")
-    public void deleteBook(@PathVariable Long id) {
+    @GetMapping("/getBookByCopies/{copies}")
+    public List<Book> findByCopies(@PathVariable int copies){
+        List<Book> listOfBooksByCopies = bookRepository.findByCopies(copies);
+        return listOfBooksByCopies;
+    }
+
+    @GetMapping("/getBookByCategory/{category}")
+    public List<Book> findByCategory(@PathVariable String category){
+        List<Book> listOfBooksByCategory = bookRepository.findByCategory(category);
+        return listOfBooksByCategory;
+    }
+
+    @GetMapping("/getBookByGenre/{genre}")
+    public List<Book> findByGenre(@PathVariable String genre){
+        List<Book> listOfBooksByGenre = bookRepository.findByGenre(genre);
+        return listOfBooksByGenre;
+    }
+
+    @GetMapping("/getBookBySubgenre/{subgenre}")
+    public List<Book> findBySubgenre(@PathVariable String subgenre){
+        List<Book> listOfBooksBySubgenre = bookRepository.findBySubgenre(subgenre);
+        return listOfBooksBySubgenre;
+    }
+
+@GetMapping("/getBookByTitle/{title}")
+    public List<Book> findByTitle(@PathVariable String title){
+        List<Book> listOfBooksByTitle = bookRepository.findByTitle(title);
+        return listOfBooksByTitle;
+    }
+
+    @GetMapping("/getBookByAuthor/{author}")
+    public List<Book> findByAuthor(@PathVariable String author){
+        List<Book> listOfBooksByAuthor = bookRepository.findByAuthor(author);
+        return listOfBooksByAuthor;
+    }
+
+    @PutMapping("/updateBook")
+    public Book updateBook (@RequestBody Book book){
+        if (book.getId()!= 0L)
+        {Book updatedBook = bookRepository.save(book); 
+            return updatedBook;
+        } 
+            
+            return null;
+
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deletebook (@PathVariable long id ){
         bookRepository.deleteById(id);
     }
+  
 
-    @GetMapping("findByisbn/{isbn}")
-    public List<Book> findByisbn(@PathVariable String isbn) {
-        List<Book> books = bookRepository.findByIsbn(isbn);
-        return books;
-    }
+    
 
 }
